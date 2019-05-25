@@ -8,11 +8,11 @@ using namespace std;
 class evento {
 	private:
 	int tipo;  //  representa teatro, esporte, show...
-	int dataInicio;
-	int dataFim;
-	char * cidade;
-	char * estado;
-	char * nome;
+	std::string dataInicio;
+	std::string dataFim;
+	std::string cidade;
+	std::string estado;
+	std::string nome;
 	int codigo;
 	int horario;
 	int precoIngresso;
@@ -25,11 +25,11 @@ class evento {
 	~evento();  // destrutor
 	// Metodos para acessar os valores
 	int getTipo();
-	int getDataInicio();
-	int getDataFim();
-	char *getCidade();
-	char *getEstado();
-	char *getNome();
+	std::string getDataInicio();
+	std::string getDataFim();
+	std::string getCidade();
+	std::string getEstado();
+	std::string getNome();
 	int getCodigo();
 	int getHorario();
 	int getPrecoIngresso();
@@ -39,11 +39,11 @@ class evento {
 
 	// Metodos para setar os valores
 	int setTipo(int);
-	int setDataInicio(int);
-	int setDataFim(int);
-	int setCidade(char *);
-	int setEstado(char *);
-	int setNome(char *);
+	int setDataInicio(std::string);
+	int setDataFim(std::string);
+	int setCidade(std::string);
+	int setEstado(std::string);
+	int setNome(std::string);
 	int setCodigo(int);
 	int setHorario(int);
 	int setPrecoIngresso(int);

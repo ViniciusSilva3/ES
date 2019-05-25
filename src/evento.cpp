@@ -2,11 +2,11 @@
 
 evento::evento() {
 	setTipo(1);
-	setDataInicio(1);
-	setDataFim(1);
-	setCidade((char *)"asd");
-	setEstado((char *)"asd");
-	setNome((char *)"asd");
+	setDataInicio("asd");
+	setDataFim("asd");
+	setCidade("asd");
+	setEstado("asd");
+	setNome("asd");
 	setCodigo(1);
 	setHorario(1);
 	setPrecoIngresso(1);
@@ -22,23 +22,23 @@ int evento::setTipo(int tp) {
 	return 1;
 }
 
-int evento::setDataInicio(int datain) {
+int evento::setDataInicio(std::string datain) {
 	dataInicio = datain;
 	return 1;
 }
-int evento::setDataFim(int datafim) {
+int evento::setDataFim(std::string datafim) {
 	dataFim = datafim;
 	return 1;
 }
-int evento::setCidade(char *Cidade) {
+int evento::setCidade(std::string Cidade) {
 	cidade = Cidade;
 	return 1;
 }
-int evento::setEstado(char *Estado) {
+int evento::setEstado(std::string Estado) {
 	estado = Estado;
 	return 1;
 }
-int evento::setNome(char* Nome) {
+int evento::setNome(std::string Nome) {
 	nome = Nome;
 	return 1;
 }
@@ -72,20 +72,20 @@ int evento::setFaixaEtaria(int faixa) {
 int evento::getTipo() {
 	return tipo;
 }
-int evento::getDataInicio() {
+std::string evento::getDataInicio() {
 	return dataInicio;
 }
-int evento::getDataFim() {
+std::string evento::getDataFim() {
 	return dataFim;
 }
-char * evento::getCidade() {
+std::string evento::getCidade() {
 	return cidade;
 }
 
-char* evento::getEstado() {
+std::string evento::getEstado() {
 	return estado;
 }
-char * evento::getNome() {
+std::string evento::getNome() {
 	return nome;
 }
 int evento::getCodigo() {
