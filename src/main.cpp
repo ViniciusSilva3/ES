@@ -3,7 +3,7 @@
 
 int main(void) {
 	evento Ev;
-	Ev = evento();
-	printf("Hello Felipe\n");
+	Ev = criaNovoEvento();
+    Ev.escreveNovoEvento();
 	return 0;
 }

@@ -50,6 +50,13 @@ class evento {
 	int setNumSala(int);
 	int setQuantIngresso(int);
 	int setFaixaEtaria(int);
+
+    // metodos para armazenar os dados
+    int escreveNovoEvento(void);
+    
 };
+
+// Funcoes que estao fora das classes
+evento criaNovoEvento(void);
 
 #endif

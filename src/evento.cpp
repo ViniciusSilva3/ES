@@ -106,3 +106,74 @@ int evento::getQuantIngresso() {
 int evento::getFaixaEtaria() {
 	return faixaEtaria;
 }
+int evento::escreveNovoEvento() {
+    /* Esse metodo tem como objetivo armazenar os dados de um evento criado por
+     * um admnistrador do sistema em um arquivo de texto, para que possa ser utilizado
+     * para mostrar quais eventos atuais estao disponives para compra
+     */
+    ofstream myfile ("logeventos.txt", ios::app); // o ponteiro de escrita comeca no fim do arquivo
+    if (myfile.is_open()) {
+        myfile << tipo << " ";
+        myfile << dataInicio << " ";
+        myfile << dataFim << " ";
+        myfile << cidade << " ";
+        myfile << estado << " ";
+        myfile << nome << " ";
+        myfile << codigo << " ";
+        myfile << horario << " ";
+        myfile << precoIngresso << " ";
+        myfile << numeroSala << " ";
+        myfile << quantIngressos << " ";
+        myfile << faixaEtaria << "\n"; // ultima caracteristica pula uma linha para ler o proximo evento
+        myfile.close();
+        return 1;
+    }
+    else cout << "Nao foi possivel abrir arquivo";
+    return 0;
+}
+evento criaNovoEvento() {
+    /* Metodo para uso do administrador poder criar novos eventos
+     * fornecendo cada uma das caracteristicas necessarias
+     */
+    evento novoEv;
+    novoEv = evento(); // constroi um objeto
+    std::string str;
+    int temp;
+    cout << "Digite o tipo:\n";
+    cin >> temp;
+    novoEv.setTipo(temp);
+    cout << "Digite a data de Inicio:\n";
+    cin >> str;
+    novoEv.setDataInicio(str);
+    cout << "Digite a data de Fim:\n";
+    cin >> str;
+    novoEv.setDataFim(str);
+    cout << "Digite a Cidade:\n";
+    cin >> str;
+    novoEv.setCidade(str);
+    cout << "Digite o Estado:\n";
+    cin >> str;
+    novoEv.setEstado(str);
+    cout << "Digite o Nome:\n";
+    cin >> str;
+    novoEv.setNome(str);
+    cout << "Digite o codigo:\n";
+    cin >> temp;
+    novoEv.setCodigo(temp);
+    cout << "Digite o Horario:\n";
+    cin >> temp;
+    novoEv.setHorario(temp);
+    cout << "Digite o Preco do Ingresso:\n";
+    cin >> temp;
+    novoEv.setPrecoIngresso(temp);
+    cout << "Digite o numero da Sala:\n";
+    cin >> temp;
+    novoEv.setNumSala(temp);
+    cout << "Digite a quantidade de ingressos disponiveis:\n";
+    cin >> temp;
+    novoEv.setQuantIngresso(temp);
+    cout << "Digite a faixa etaria:\n";
+    cin >> temp;
+    novoEv.setFaixaEtaria(temp);
+    return novoEv;
+}
