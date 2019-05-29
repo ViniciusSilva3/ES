@@ -1,15 +1,34 @@
 #include "usuario.hpp"
 // Essa funcao cria um usuario novo 
-
-// Esse metodo tem como objetivo armazenar os dados de um usuario criado para o banco de dados
- 
-int usuario::CriaUsuario() {
+int usuario::CadastrarUsuario(){
+    
+    std::string cpf, senha;
     int UsuarioExistente = 0;
+    
+    cout << "Digite o nome do usuario:\n";
+    cin >> cpf;
+    cout << "Digite a senha do usuario:\n";
+    cin >> senha;
+    
+    //Cria um usuario que podera ser inserido no sistema
+    this->setCpf(cpf);
+    this->setSenha(senha);
+    
+    //Verifica se o CPF ja esta cadastrado no sistema
     UsuarioExistente =  this->LeUsuario();
-    if (UsuarioExistente != 0){
+    if (UsuarioExistente == 0)
+        this->EscreveUsuario();
+    
+    // Se ja existir o CPF o metodo retorna 1
+    else{
         cout << "CPF ja esta cadastrado no sistema";
         return 1;
     }
+    return 0;
+}
+// Esse metodo tem como objetivo armazenar os dados de um usuario criado por
+ 
+int usuario::EscreveUsuario() {
     
     ofstream myfile ("logusuarios.txt", ios::app); // o ponteiro de escrita comeca no fim do arquivo
     if (myfile.is_open()) {
@@ -77,10 +96,9 @@ int usuario:: DeletaUsuario(){
                 line.replace(line.find(DeletarUsuario),DeletarUsuario.length(),"");
                 temp << line;
             }
-            else{
-                if (!line.empty()) 
-                    temp << line << endl;
-                }
+            else
+                temp << line << endl;
+
     }
     //O arquivo eh reescrito em outro
     temp.close();
@@ -93,7 +111,7 @@ return 0;
 
 
 int usuario::EditarCpf(std::string cpf){
-    
+
     string UsuarioNovo,UsuarioAntigo,line;
     string senha,CpfNovo,CpfAntigo;
 
@@ -125,7 +143,7 @@ return 0;
 }
 
 int usuario::EditarSenha(std::string senha){
-    
+
     string UsuarioNovo,UsuarioAntigo,line;
     string SenhaNova,cpf,SenhaAntiga;
 
