@@ -28,11 +28,10 @@ class usuario {
         inline std::string getCpf() {return cpf;}
         inline std::string getSenha() {return senha;}
         // Funcoes que mexem na classe usuario
-        int CadastrarUsuario(void);
         int EditarSenha(std::string);
         int EditarCpf(std::string);
         int AutentificaUsuario();
-        int EscreveUsuario();
+        int CriaUsuario();
         int LeUsuario();
         int DeletaUsuario();
 };
