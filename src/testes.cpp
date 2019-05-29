@@ -2,6 +2,7 @@
 #define CATCH_CONFIG_MAIN
 #include "funcoes.h"
 #include "evento.hpp"
+#include "usuario.hpp"
 //#include "catch.hpp"
   TEST_CASE( "Classe Eventos" ){
     SECTION( "Teste do Construtor da classe" ){
@@ -82,4 +83,26 @@
         REQUIRE( strT == str3 );
     } // fim da secao 2
 } // fim teste case
-
+TEST_CASE ("Classe de usuarios"){
+    SECTION( "Teste do Construtor da classe" ){
+         
+        usuario user;
+        std::string Retorno;
+        int Retorno1;
+        //Testes das funcoes "gets"
+        user = usuario("01234567890","SenhaTeste");
+        Retorno = user.getCpf();
+        REQUIRE ( Retorno == "01234567890" );
+        Retorno = user.getSenha();
+        REQUIRE ( Retorno == "SenhaTeste");
+        //Testes das funcoes "sets"
+        user.setCpf("09876543210");
+        user.setSenha("TesteSenha");
+        Retorno = user.getCpf();
+        REQUIRE ( Retorno == "09876543210" );
+        Retorno = user.getSenha();
+        REQUIRE ( Retorno == "TesteSenha" );
+     
+     
+     }
+}
