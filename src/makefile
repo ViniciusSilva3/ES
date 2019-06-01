@@ -7,10 +7,10 @@ LDIR =../lib
 
 LIBS=-lm
 
-_DEPS = funcoes.h evento.hpp usuario.hpp
+_DEPS = funcoes.h evento.hpp usuario.hpp menu.hpp
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = testes.o evento.o usuario.o
+_OBJ = main.o evento.o usuario.o menu.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
