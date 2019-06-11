@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include "usuario.hpp"
+
 using namespace std;
 class evento {
 	private:
@@ -19,6 +21,7 @@ class evento {
 	int numeroSala;
 	int quantIngressos;
 	int faixaEtaria;
+    std::string criador;
 
 	public:
 	evento();  // construtor
@@ -36,6 +39,7 @@ class evento {
 	int getNumSala();
 	int getQuantIngresso();
 	int getFaixaEtaria();
+    std::string getCriador();
 
 	// Metodos para setar os valores
 	int setTipo(int);
@@ -50,6 +54,7 @@ class evento {
 	int setNumSala(int);
 	int setQuantIngresso(int);
 	int setFaixaEtaria(int);
+    int setCriador(std::string);
 
     // metodos para armazenar os dados
     int escreveNovoEvento(void);
@@ -57,6 +62,6 @@ class evento {
 };
 
 // Funcoes que estao fora das classes
-evento criaNovoEvento(void);
+evento criaNovoEvento(usuario);
 void MostraEventosPesquisados(std::string,std::string,std::string,std::string);
 #endif

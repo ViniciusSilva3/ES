@@ -46,7 +46,7 @@ int mainmenu(){
                     
                     break;
                 case 2:
-                    event = criaNovoEvento();
+                    event = criaNovoEvento(user);
                     event.escreveNovoEvento();
                     break;
                 case 3:
@@ -97,15 +97,18 @@ int mainmenu(){
         }
     }
 }
-// Login do menu,retorna 0 se não achar usuário, 1 se encontra-lo
+
 int menulogin(){   
-    std::string a,b;
+/* Login do menu,retorna um usuario para saber quem esta logado
+ *
+ */
+    std::string cpf_temp,senha_temp;
     cout << "Digite seu CPF:\n";
-    cin  >> a;
-    user.setCpf(a);
+    cin  >> cpf_temp;
+    user.setCpf(cpf_temp);
     cout << "Digite sua senha:\n";
-    cin  >> b;
-    user.setSenha(b); 
+    cin  >> senha_temp;
+    user.setSenha(senha_temp); 
     if(!(user.AutentificaUsuario())){
         system("clear");
         cout<< "Usuário não cadastrado\n";

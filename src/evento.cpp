@@ -1,4 +1,5 @@
 #include "evento.hpp"
+#include "usuario.hpp"
 
 evento::evento() {
 	setTipo(1);
@@ -66,7 +67,10 @@ int evento::setFaixaEtaria(int faixa) {
 	faixaEtaria = faixa;
 	return 1;
 }
-
+int evento::setCriador(std::string str) {
+    criador = str;
+    return 1;
+}
 // Metodos Get
 
 int evento::getTipo() {
@@ -106,6 +110,9 @@ int evento::getQuantIngresso() {
 int evento::getFaixaEtaria() {
 	return faixaEtaria;
 }
+std::string evento::getCriador() {
+    return criador;
+}
 int evento::escreveNovoEvento() {
     /* Esse metodo tem como objetivo armazenar os dados de um evento criado por
      * um admnistrador do sistema em um arquivo de texto, para que possa ser utilizado
@@ -124,14 +131,15 @@ int evento::escreveNovoEvento() {
         myfile << precoIngresso << " ";
         myfile << numeroSala << " ";
         myfile << quantIngressos << " ";
-        myfile << faixaEtaria << "\n"; // ultima caracteristica pula uma linha para ler o proximo evento
+        myfile << faixaEtaria << " "; 
+        myfile << criador << "\n";// ultima caracteristica pula uma linha para ler o proximo evento
         myfile.close();
         return 1;
     }
     else cout << "Nao foi possivel abrir arquivo";
     return 0;
 }
-evento criaNovoEvento() {
+evento criaNovoEvento(usuario user1) {
     /* Metodo para uso do administrador poder criar novos eventos
      * fornecendo cada uma das caracteristicas necessarias
      */
@@ -175,6 +183,7 @@ evento criaNovoEvento() {
     cout << "Digite a faixa etaria:\n";
     cin >> temp;
     novoEv.setFaixaEtaria(temp);
+    novoEv.setCriador(user1.getCpf());
     return novoEv;
 }
 

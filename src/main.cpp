@@ -5,7 +5,7 @@
 
 int main(void) {	
 	
-	MostraEventosPesquisados("11/10/2014","11/10/2016","Brasilia","DF");
+	MostraEventosPesquisados("12/10/2012","13/10/2013","campos","jordao");
 	//mainmenu();
 	return 0;
 }
