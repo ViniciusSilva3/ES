@@ -5,7 +5,7 @@ int usuario::CadastrarUsuario(){
     std::string cpf, senha;
     int UsuarioExistente = 0;
     
-    cout << "Digite o nome do usuario:\n";
+    cout << "Digite o CPF do usuario:\n";
     cin >> cpf;
     cout << "Digite a senha do usuario:\n";
     cin >> senha;

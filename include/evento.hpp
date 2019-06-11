@@ -58,5 +58,5 @@ class evento {
 
 // Funcoes que estao fora das classes
 evento criaNovoEvento(void);
-
+void MostraEventosPesquisados(std::string,std::string,std::string,std::string);
 #endif

@@ -1,5 +1,6 @@
 #include "menu.hpp"
 #include "evento.hpp"
+#include <stdlib.h>
 usuario user;
 evento event;
 
@@ -16,9 +17,11 @@ int mainmenu(){
         cin >> a;
         switch(a){
             case 1:
+                system("clear");
                 logado = menulogin();
                 break;
             case 2:
+                system("clear");
                 menucadastrar();
                 break;
             case 3:
@@ -28,6 +31,7 @@ int mainmenu(){
         }
         //menu logado
         while(logado){
+            system("clear");
             cout << "*******************************\n";
             cout << "Site de vendas de ingressos VHF\n";
             cout << "Usuario:" << user.getCpf() <<"\n";
@@ -42,11 +46,13 @@ int mainmenu(){
                     
                     break;
                 case 2:
+                    event = criaNovoEvento();
                     event.escreveNovoEvento();
                     break;
                 case 3:
                     cad = 1;
                     while(cad){
+                    system("clear");
                     cout << "*******************************\n";
                     cout << "Site de vendas de ingressos VHF\n";
                     cout << "Usuario:" << user.getCpf() <<"\n";
@@ -59,6 +65,7 @@ int mainmenu(){
                     switch(c){
                         case 1:
                             user.EditarCpf(user.getCpf());
+                            system("clear");
                             cout << "CPF alterado com sucesso!\n";
                             break;
                         case 2:
@@ -67,6 +74,7 @@ int mainmenu(){
                             break;
                         case 3:
                             user.DeletaUsuario();
+                            system("clear");
                             cout << "Usuário Deletado com sucesso!\n";
                             cad = 0;
                             logado = 0;
@@ -99,6 +107,7 @@ int menulogin(){
     cin  >> b;
     user.setSenha(b); 
     if(!(user.AutentificaUsuario())){
+        system("clear");
         cout<< "Usuário não cadastrado\n";
         return 0;
     }
@@ -106,5 +115,6 @@ int menulogin(){
 }
 void menucadastrar(){
     user.CadastrarUsuario();
+    system("clear");
     cout << "Cadastro Realizado com sucesso!\n";
 }
