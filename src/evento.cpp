@@ -186,54 +186,94 @@ evento criaNovoEvento(usuario user1) {
     novoEv.setCriador(user1.getCpf());
     return novoEv;
 }
-
-void MostraEventosPesquisados(std::string DataInicio,std::string DataFim,std::string Cidade,std::string Estado){
-ifstream file;
-std::string word;
-std::string tipo,datainicio,datafim,cidade,estado,nome,codigo,horario,precoingresso;
-std::string numerosala,quantingressos,faixaetaria;
-int i = 0;    
-    file.open ("logeventos.txt");
-    
-    while (file >> word)
+// Mostra os cpfs dos ingressos comprados e a quantidade total do evento procurado
+void MostraIngressosComprados(std::string CodigoEvento){
+    std::ifstream inFile("logingressos.txt");
+    string line,codigoevento,cliente;
+    int NumeroIngressos,i,j=0;
+    while (getline(inFile, line))
     {
-        if (i == 0)
-            tipo = word;
-        else if (i == 1)
-            datainicio = word;
-        else if (i == 2)
-            datafim = word;
-        else if (i == 3)
-            cidade = word;
-        else if (i == 4)
-            estado = word;
-        else if (i == 5)
-            nome = word;
-        else if (i == 6)
-            codigo = word;
-        else if (i == 7)
-            horario = word;
-        else if (i == 8)
-            precoingresso = word;
-        else if (i == 9)
-            numerosala = word;
-        else if (i == 10)
-            quantingressos = word;
-        //A partir daqui, todos os dados do evento ja foram reunidos
-        else if (i == 11){
-            faixaetaria = word;
-            i = -1;
-            //cout << tipo << datainicio << datafim << cidade << estado << nome << codigo << horario << precoingresso << numerosala << quantingressos << faixaetaria << "\n";
-            if(!DataInicio.compare(datainicio) && !DataFim.compare(datafim) && !Cidade.compare(cidade) && !Estado.compare(estado)){
-                 cout << "*******************************\n";
-                cout << "Evento:" << nome << "\n"; 
-                cout << "*******************************\n";
-                cout <<"Codigo:"<< codigo << "\n" << "Inicio:" << datainicio << "\n" << "Fim:" << datafim << "\n" << "Preco:" << precoingresso << "\n" <<"Quantidade de ingressos:" << quantingressos <<"\n";
-                cout << "Horario:" << horario << "\n" << "Numero da sala:" << numerosala << "\n" << "Faixa etaria:" << faixaetaria << "\n";
-
-
+        istringstream buffer(line);
+        string word;
+        i = 0;
+        while (buffer >> word)
+        {
+            if(i == 0)
+                codigoevento = word;
+            else{
+                cliente = word;
+                // Checa pra ver se é o evento buscado
+                if(!codigoevento.compare(CodigoEvento)){
+                    cout << cliente << "\n";
+                    j = 1;
+                }
+                else 
+                    j = 0;
             }
+            i++;
         }
-        i++;
+        // Ve a quantidade de cpfs lincados ao evento procurado
+        if ( j == 1)
+            NumeroIngressos = i - 1;
+
     }
-}
+    cout << "Total de ingressos vendidos:" << NumeroIngressos << "\n";
+    }
+
+
+
+
+
+
+
+
+void MostraEventosPesquisados(std::string DataInicio,std::string DataFim,std::string Cidade,std::string Estado) {
+    ifstream file;
+    std::string word;
+    std::string tipo,datainicio,datafim,cidade,estado,nome,codigo,horario,precoingresso;
+    std::string numerosala,quantingressos,faixaetaria;
+    int i = 0;    
+        file.open ("logeventos.txt");
+        
+        while (file >> word)
+        {
+            if (i == 0)
+                tipo = word;
+            else if (i == 1)
+                datainicio = word;
+            else if (i == 2)
+                datafim = word;
+            else if (i == 3)
+                cidade = word;
+            else if (i == 4)
+                estado = word;
+            else if (i == 5)
+                nome = word;
+            else if (i == 6)
+                codigo = word;
+            else if (i == 7)
+                horario = word;
+            else if (i == 8)
+                precoingresso = word;
+            else if (i == 9)
+                numerosala = word;
+            else if (i == 10)
+                quantingressos = word;
+            //A partir daqui, todos os dados do evento ja foram reunidos
+            else if (i == 11){
+                faixaetaria = word;
+                i = -1;
+                //cout << tipo << datainicio << datafim << cidade << estado << nome << codigo << horario << precoingresso << numerosala << quantingressos << faixaetaria << "\n";
+                if(!DataInicio.compare(datainicio) && !DataFim.compare(datafim) && !Cidade.compare(cidade) && !Estado.compare(estado)){
+                    cout << "*******************************\n";
+                    cout << "Evento:" << nome << "\n"; 
+                    cout << "*******************************\n";
+                    cout <<"Codigo:"<< codigo << "\n" << "Inicio:" << datainicio << "\n" << "Fim:" << datafim << "\n" << "Preco:" << precoingresso << "\n" <<"Quantidade de ingressos:" << quantingressos <<"\n";
+                    cout << "Horario:" << horario << "\n" << "Numero da sala:" << numerosala << "\n" << "Faixa etaria:" << faixaetaria << "\n";
+
+
+                }
+            }
+            i++;
+        }
+    }

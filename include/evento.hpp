@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <sstream>
 #include "usuario.hpp"
 
 using namespace std;
@@ -64,4 +65,6 @@ class evento {
 // Funcoes que estao fora das classes
 evento criaNovoEvento(usuario);
 void MostraEventosPesquisados(std::string,std::string,std::string,std::string);
+void MostraIngressosComprados(std::string);
+
 #endif
