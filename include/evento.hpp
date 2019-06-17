@@ -66,5 +66,6 @@ class evento {
 evento criaNovoEvento(usuario);
 void MostraEventosPesquisados(std::string,std::string,std::string,std::string);
 void MostraIngressosComprados(std::string);
+void CompraIngresso(std::string, std::string);
 
 #endif

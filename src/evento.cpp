@@ -218,12 +218,47 @@ void MostraIngressosComprados(std::string CodigoEvento){
 
     }
     cout << "Total de ingressos vendidos:" << NumeroIngressos << "\n";
+    inFile.close();
     }
 
 
-
-
-
+void CompraIngresso(std::string CodigoEvento, std::string user) {
+    std::fstream inFile("logingressos.txt");
+    std::ofstream temp("temp.txt");
+    std::string str;
+    int posicao, retorno = 0;
+    char str1;
+    while( !inFile.eof() ) {
+        inFile >> str;  // pega o codigo do evento para ver se ja exsite
+        temp << str;
+        if ( str == CodigoEvento ) {
+            while( inFile >> noskipws >> str1 ) {
+                if( str1 == '\n') {
+                    temp << " " << user << "\n";
+                    retorno = 1;
+                    break;
+                }
+                temp << str1;
+            }
+        }
+         getline(inFile, str); // pula pra proxima linha para verificar o codigo do evento
+         if (!inFile.eof())
+            temp << str << "\n";
+        }  // end while
+    inFile.close(); // fecha o arquivo
+    temp.close();
+    if ( retorno == 1 ) {
+        rename("temp.txt", "logingressos.txt");
+        return;
+    }
+    std::ofstream myfile ("logingressos.txt", ios::app);
+    myfile << CodigoEvento;
+    myfile << " "; 
+    myfile << user; 
+    myfile << "\n";
+    myfile.close();
+    return;
+} // end compraingresso
 
 
 
@@ -237,7 +272,7 @@ void MostraEventosPesquisados(std::string DataInicio,std::string DataFim,std::st
         
         while (file >> word)
         {
-            if (i == 0)
+            if (i == 0) 
                 tipo = word;
             else if (i == 1)
                 datainicio = word;
@@ -262,7 +297,9 @@ void MostraEventosPesquisados(std::string DataInicio,std::string DataFim,std::st
             //A partir daqui, todos os dados do evento ja foram reunidos
             else if (i == 11){
                 faixaetaria = word;
+                getline(file, word);
                 i = -1;
+                }
                 //cout << tipo << datainicio << datafim << cidade << estado << nome << codigo << horario << precoingresso << numerosala << quantingressos << faixaetaria << "\n";
                 if(!DataInicio.compare(datainicio) && !DataFim.compare(datafim) && !Cidade.compare(cidade) && !Estado.compare(estado)){
                     cout << "*******************************\n";
@@ -273,7 +310,7 @@ void MostraEventosPesquisados(std::string DataInicio,std::string DataFim,std::st
 
 
                 }
-            }
             i++;
         }
+    file.close();
     }

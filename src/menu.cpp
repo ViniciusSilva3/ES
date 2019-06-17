@@ -6,6 +6,7 @@ evento event;
 
 int mainmenu(){
     int a,b,c,logado = 0,cad = 0;
+    std::string str1, str2, str3, str4, str5;
 
     while(1){
         cout << "*******************************\n";
@@ -43,7 +44,17 @@ int mainmenu(){
             cin >> b;
             switch(b){
                 case 1:
-                    
+                    cout << "Digite, em ordem, a data de inicio, data de fim, cidade e estado do evento:\n";
+                    cin >> str1;
+                    cin >> str2;
+                    cin >> str3;
+                    cin >> str4;
+                    MostraEventosPesquisados(str1, str2, str3, str4);
+                    cout << "\nDigite o codigo do evento que deseja comprar, -1 para sair:\n";
+                    cin >> str5;
+                    if(cin == "-1")
+                        break;
+                    CompraIngresso(str5, user.getCpf());
                     break;
                 case 2:
                     event = criaNovoEvento(user);
