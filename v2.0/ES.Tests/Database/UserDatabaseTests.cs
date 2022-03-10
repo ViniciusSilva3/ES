@@ -17,17 +17,17 @@ public class UserDatabaseTests
             "222222222;password;01/04/2021;444;0123456789;"
         }, "file");
 
-        Maybe<FileOperation> op = dbClient.AddUser(fileContent, testUser);
+        Maybe<FileOperation> operation = dbClient.AddUser(fileContent, testUser);
 
-        Assert.True(op.HasValue);
-        if (op.HasValue)
+        Assert.True(operation.HasValue);
+        if (operation.HasValue)
         {
-            Assert.Equal(OperationType.WRITE, op.Value.Operation);
+            Assert.Equal(OperationType.WRITE, operation.Value.Operation);
             Assert.Equal(new[] {
                 "222222222;password;01/04/2021;444;0123456789",
                 "123456789;adminpassword;01/02/2020;123;0123456789"
-            }, op.Value.Content);
-            Assert.Equal("file", op.Value.FileName);
+            }, operation.Value.Content);
+            Assert.Equal("file", operation.Value.FileName);
         }
     }
     [Fact]
@@ -45,8 +45,8 @@ public class UserDatabaseTests
             "123456789;adminpassword;01/02/2020;123;0123456789"
         }, "file");
 
-        Maybe<FileOperation> op = dbClient.AddUser(fileContent, testUser);
+        Maybe<FileOperation> operation = dbClient.AddUser(fileContent, testUser);
 
-        Assert.True(op.HasNoValue);
+        Assert.True(operation.HasNoValue);
     }
 }
