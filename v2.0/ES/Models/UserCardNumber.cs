@@ -3,18 +3,13 @@ public class UserCardNumber : ValueObject
 {
     private readonly string _value;
 
-    public static Result<UserCardNumber> Create(string cardNumber)
+    public static Result<UserCardNumber> Create(Maybe<string> cardNumber)
     {
-        if (String.IsNullOrEmpty(cardNumber))
-            return Result.Fail<UserCardNumber>("Card number cannot be an empty string.");
-
-        cardNumber = cardNumber.Trim();
-        if (!cardNumber.All(char.IsDigit))
-            return Result.Fail<UserCardNumber>("Card number must only contain numbers.");
-        if (cardNumber.Length != 10)
-            return Result.Fail<UserCardNumber>("Card number must contain 10 digits.");
-
-        return Result.Ok<UserCardNumber>(new UserCardNumber(cardNumber));
+        return cardNumber.ToResult("Card number cannot be an empty string.")
+            .OnSuccess(cardNumber => cardNumber.Trim())
+            .Ensure(cardNumber => cardNumber.All(char.IsDigit), "Card number must only contain numbers.")
+            .Ensure(cardNumber => cardNumber.Length == 10, "Card number must contain 10 digits.")
+            .Map(cardNumber => new UserCardNumber(cardNumber));
     }
 
     protected UserCardNumber(string value)

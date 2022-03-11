@@ -4,14 +4,12 @@ public class UserPassword : ValueObject
 {
     private readonly string _value;
 
-    public static Result<UserPassword> Create(string password)
+    public static Result<UserPassword> Create(Maybe<string> password)
     {
-        if (String.IsNullOrEmpty(password))
-            return Result.Fail<UserPassword>("Password cannot be an empty string.");
-        if (password.Length < 6)
-            return Result.Fail<UserPassword>("Password must have at least 6 characters.");
-        
-        return Result<UserPassword>.Ok<UserPassword>(new UserPassword(password));
+        return password.ToResult("Password cannot be an empty string.")
+            .OnSuccess(password => password.Trim())
+            .Ensure(password => password.Length >= 6, "Password must have at least 6 characters.")
+            .Map(password => new UserPassword(password));
     }
 
     protected UserPassword(string value)
