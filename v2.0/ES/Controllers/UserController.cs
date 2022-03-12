@@ -29,7 +29,7 @@ public class UserController : ControllerBase
         if (result.IsNotSuccess)
             return new BadRequestResult();
         
-        var newUser = new User(cpf.Value, cardCardDate.Value, cardDigits.Value, cardNumber.Value, password.Value);
+        User newUser = new User(cpf.Value, cardCardDate.Value, cardDigits.Value, cardNumber.Value, password.Value);
 
         var createUserOperation = _userService.CreateUser(newUser);
         if (createUserOperation.IsNotSuccess)
