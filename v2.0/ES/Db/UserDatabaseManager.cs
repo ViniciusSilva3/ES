@@ -24,33 +24,38 @@ public class UserDatabaseManager : IUserDatabaseManager
         return new FileOperation(Serialize(users), currentFile.FileName, OperationType.WRITE);
     }
 
-    private User Create(string cpf, string password, string cardDate, string cardDigits,
-        string cardNumber)
-    {
-        var cpfResult = UserCpf.Create(cpf);
-
-        var cardDateResult = UserCardDate.Create(cardDate);
-        var cardDigitResult = UserCardDigits.Create(cardDigits);
-        var cardNumberResult = UserCardNumber.Create(cardNumber);
-        var passwordResult = UserPassword.Create(password);
-
-        return new User(cpfResult.Value, cardDateResult.Value, 
-            cardDigitResult.Value, cardNumberResult.Value, passwordResult.Value);
-    }
-
     private List<User> Parse(string[] users)
     {
         List<User> returnList = new List<User>();
         foreach (string user in users)
         {
             string[] readUser = user.Split(';');
-            User tempUser = Create(readUser[0], readUser[1],
+            Maybe<User> tempUser = Create(readUser[0], readUser[1],
                 readUser[2], readUser[3], readUser[4]);
-            returnList.Add(tempUser);
+            if (tempUser.HasValue)
+                returnList.Add(tempUser.Value);
         }
         return returnList;
     }
 
+    private Maybe<User> Create(string cpf, string password, string cardDate, string cardDigits,
+        string cardNumber)
+    {
+        Result<UserCpf> Cpf = UserCpf.Create(cpf);
+        Result<UserPassword> Password = UserPassword.Create(password);
+        Result<UserCardNumber> CardNumber = UserCardNumber.Create(cardNumber);
+        Result<UserCardDigits> CardDigits = UserCardDigits.Create(cardDigits);
+        Result<UserCardDate> CardDate = UserCardDate.Create(cardDate);
+
+        Result result = Result.Combine(Cpf, Password, CardDate, CardDigits, CardNumber);
+
+        if (result.IsNotSuccess)
+            return null!;
+
+        return new User(Cpf.Value, CardDate.Value, 
+            CardDigits.Value, CardNumber.Value, Password.Value);
+    }
+    
     private string[] Serialize(List<User> users)
     {
         return users

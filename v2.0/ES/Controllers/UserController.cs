@@ -22,14 +22,14 @@ public class UserController : ControllerBase
         Result<UserPassword> password = UserPassword.Create(user.password);
         Result<UserCardNumber> cardNumber = UserCardNumber.Create(user.cardNumber);
         Result<UserCardDigits> cardDigits = UserCardDigits.Create(user.cardDigits);
-        Result<UserCardDate> cardCardDate = UserCardDate.Create(user.cardDate);
+        Result<UserCardDate> cardDate = UserCardDate.Create(user.cardDate);
 
-        Result result = Result.Combine(cpf, password, cardCardDate, cardDigits, cardNumber);
+        Result result = Result.Combine(cpf, password, cardDate, cardDigits, cardNumber);
 
         if (result.IsNotSuccess)
-            return new BadRequestResult();
+            return new BadRequestObjectResult(result.Error);
         
-        User newUser = new User(cpf.Value, cardCardDate.Value, cardDigits.Value, cardNumber.Value, password.Value);
+        User newUser = new User(cpf.Value, cardDate.Value, cardDigits.Value, cardNumber.Value, password.Value);
 
         var createUserOperation = _userService.CreateUser(newUser);
         if (createUserOperation.IsNotSuccess)
