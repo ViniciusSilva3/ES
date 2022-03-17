@@ -1,6 +1,6 @@
-namespace ES.Models;
+namespace ES.API.Entities;
 
-public class CreateUserModel
+public class UserModal
 {
     public string cpf { get; set; }
     public string password { get; set; }

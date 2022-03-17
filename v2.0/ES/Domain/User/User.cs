@@ -1,4 +1,5 @@
-namespace ES.Models;
+using ES.API.Entities;
+namespace ES.Domain.User;
 
 public class User
 {
@@ -16,5 +17,17 @@ public class User
         CardDigits = cardDigits;
         CardNumber = cardNumber;
         Password = password;
+    }
+
+    public UserModal toUserModal()
+    {
+        return new UserModal()
+        {
+            cpf = (string)Cpf,
+            cardDate = (string)CardDate,
+            cardDigits = (string)CardDigits,
+            cardNumber = (string)CardNumber,
+            password = (string)Password
+        };
     }
 }

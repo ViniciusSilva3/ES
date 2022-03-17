@@ -1,6 +1,7 @@
 using Xunit;
 using ES.Db;
 using ES.Models;
+using ES.Domain.User;
 public class UserDatabaseTests
 {
     [Fact]

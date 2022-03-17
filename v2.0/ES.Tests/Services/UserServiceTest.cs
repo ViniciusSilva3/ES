@@ -3,6 +3,7 @@ using ES.Db;
 using ES.Models;
 using Moq;
 using ES.Services;
+using ES.Domain.User;
 public class UserServiceTests
 {
     private readonly Mock<IUserDatabaseManager> userDbManager = new Mock<IUserDatabaseManager>();
