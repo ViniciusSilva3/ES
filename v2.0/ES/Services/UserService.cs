@@ -1,11 +1,14 @@
 using ES.Db;
 using ES.Models;
 using ES.Constants;
+using ES.Domain.User;
 namespace ES.Services;
 
 public interface IUserService
 {
     Result CreateUser(User user);
+    Result<User> GetUser(UserCpf userCpf);
+    Result<List<User>> GetAllUsers();
 }
 
 public class UserService : IUserService
@@ -32,5 +35,33 @@ public class UserService : IUserService
         }
         
         return Result.Fail("User already exists.");
+    }
+
+    public Result<User> GetUser(UserCpf userCpf)
+    {
+        FileContent content = _persister.ReadFileContent(DbConstants.userFileName);
+
+        Maybe<User> user = _userDatabaseManager.GetUser(content, userCpf);
+
+        if (user.HasValue)
+        {  
+            return Result.Ok(user.Value);
+        }
+
+        return Result.Fail<User>($"User with CPF: {(string)userCpf} does not exist.");
+    }
+
+    public Result<List<User>> GetAllUsers()
+    {
+        FileContent content = _persister.ReadFileContent(DbConstants.userFileName);
+
+        Maybe<List<User>> userList = _userDatabaseManager.GetAllUsers(content);
+
+        if (userList.HasValue)
+        {  
+            return Result.Ok(userList.Value);
+        }
+
+        return  Result.Fail<List<User>>("There are no users registred!");
     }
 }

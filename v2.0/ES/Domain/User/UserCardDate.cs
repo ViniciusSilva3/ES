@@ -1,4 +1,5 @@
-namespace ES.Models;
+using ES.Models;
+namespace ES.Domain.User;
 public class UserCardDate : ValueObject
 {
     private readonly string _value;

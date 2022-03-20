@@ -1,4 +1,5 @@
-namespace ES.Models;
+using ES.Models;
+namespace ES.Domain.User;
 public class UserCardNumber : ValueObject
 {
     private readonly string _value;

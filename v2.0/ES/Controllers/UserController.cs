@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using ES.Models;
 using ES.Services;
+using ES.API.Entities;
+using ES.Domain.User;
 
 
 namespace ES.Controllers;
 
 [ApiController]
-[Route("api/user")]
+[Route("api/users")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -15,8 +17,35 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
+    [HttpGet]
+    [Route("{id}")]
+    public ActionResult<UserModal> GetUserById(string id)
+    {
+        Result<UserCpf> cpf = UserCpf.Create(id);
+        if (cpf.IsNotSuccess)
+            return new BadRequestObjectResult(cpf.Error);
+        
+        Result<User> user = _userService.GetUser(cpf.Value);
+        if (user.IsNotSuccess)
+            return new NotFoundObjectResult(user.Error);
+        
+        return new OkObjectResult(user.Value.toUserModal());
+    }
+
+    [HttpGet]
+    public ActionResult<List<UserModal>> GetAllUsers()
+    { 
+        Result<List<User>> userList = _userService.GetAllUsers();
+        if (userList.IsNotSuccess)
+            return new NotFoundObjectResult(userList.Error);
+        
+        List<UserModal> userModalList = userList.Value.Select(user => user.toUserModal()).ToList();
+        
+        return new OkObjectResult(userModalList);
+    }
+
     [HttpPost]
-    public ActionResult CreateUser(CreateUserModel user)
+    public ActionResult CreateUser(UserModal user)
     {
         Result<UserCpf> cpf = UserCpf.Create(user.cpf);
         Result<UserPassword> password = UserPassword.Create(user.password);

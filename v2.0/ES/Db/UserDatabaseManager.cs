@@ -1,9 +1,12 @@
 namespace ES.Db;
+using ES.Domain.User;
 using Models;
 
 public interface IUserDatabaseManager
 {
     Maybe<FileOperation> AddUser(FileContent currentFile, User newUser);
+    Maybe<User> GetUser(FileContent currentFile, UserCpf userCpf);
+    Maybe<List<User>> GetAllUsers(FileContent currentFile);
 }
 public class UserDatabaseManager : IUserDatabaseManager
 { 
@@ -18,10 +21,31 @@ public class UserDatabaseManager : IUserDatabaseManager
 
         var user = users.FirstOrDefault(user => user.Cpf == newUser.Cpf);
         if (user != null)
-            return null;
+            return null!;
 
         users.Add(newUser);
         return new FileOperation(Serialize(users), currentFile.FileName, OperationType.WRITE);
+    }
+
+    public Maybe<User> GetUser(FileContent currentFile, UserCpf userCpf)
+    {
+        List<User> users = Parse(currentFile.Content);
+        var storedUser = users.FirstOrDefault(storedUser => storedUser.Cpf == userCpf);
+        if (storedUser != null) {
+            
+            return storedUser;
+        }
+        
+        return null!;
+    }
+
+    public Maybe<List<User>> GetAllUsers(FileContent currentFile)
+    {
+        List<User> users = Parse(currentFile.Content);
+        if (!users.Any())
+            return null;
+        
+        return users;
     }
 
     private List<User> Parse(string[] users)
@@ -65,5 +89,17 @@ public class UserDatabaseManager : IUserDatabaseManager
                             (string)user.CardDigits + ';' +
                             (string)user.CardNumber)
             .ToArray();
+    }
+
+    private string[] Serialize(User user)
+    {
+        return  new string[] 
+            {
+                (string)user.Cpf + ';' +
+                (string)user.Password + ';' +
+                (string)user.CardDate + ';' +
+                (string)user.CardDigits + ';' +
+                (string)user.CardNumber
+            };
     }
 }
