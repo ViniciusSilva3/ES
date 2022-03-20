@@ -6,20 +6,13 @@ public class UserCpf : ValueObject {
     {
         _value = value;
     }
-    public static Result<UserCpf> Create(string userCpf)
+    public static Result<UserCpf> Create(Maybe<string> userCpfOrNothing)
     {
-        if(String.IsNullOrEmpty(userCpf))
-            return Result.Fail<UserCpf>("cpf cannot be empty.");
-
-        userCpf = userCpf.Trim();
-        if(userCpf.Length > 9)
-            return Result.Fail<UserCpf>("cpf can only contain 9 digits.");
-
-        if(!userCpf.All(char.IsDigit))
-            return Result.Fail<UserCpf>("cpf can only contain numbers.");
-        
-        return Result.Ok<UserCpf>(new UserCpf(userCpf));
-    
+        return userCpfOrNothing.ToResult("cpf cannot be empty.")
+            .OnSuccess(cpf => cpf.Trim())
+            .Ensure(cpf => cpf.Length == 9, "cpf must contain 9 digits.")
+            .Ensure(cpf => cpf.All(char.IsDigit), "cpf can only contain numbers.")
+            .Map(cpf => new UserCpf(cpf));
     }
     protected override IEnumerable<object> GetEqualityComponents()
     {

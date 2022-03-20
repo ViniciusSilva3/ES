@@ -2,19 +2,13 @@ namespace ES.Models;
 public class UserCardDigits : ValueObject
 {
     private readonly string _value;
-
-    public static Result<UserCardDigits> Create(string cardDigits)
+    public static Result<UserCardDigits> Create(Maybe<string> cardDigits)
     {
-        if (String.IsNullOrEmpty(cardDigits))
-            return Result.Fail<UserCardDigits>("Card number cannot be an empty string.");
-
-        cardDigits = cardDigits.Trim();
-        if (!cardDigits.All(char.IsDigit))
-            return Result.Fail<UserCardDigits>("Card number must only contain numbers.");
-        if (cardDigits.Length != 3)
-            return Result.Fail<UserCardDigits>("Card number must contain 3 digits.");
-
-        return Result.Ok<UserCardDigits>(new UserCardDigits(cardDigits));
+        return cardDigits.ToResult("Card number cannot be an empty string.")
+            .OnSuccess(cardDigits => cardDigits.Trim())
+            .Ensure(cardDigits => cardDigits.All(char.IsDigit), "Card number must only contain numbers.")
+            .Ensure(cardDigits => cardDigits.Length == 3, "Card number must contain 3 digits.")
+            .Map(cardDigits => new UserCardDigits(cardDigits));
     }
 
     protected UserCardDigits(string value)

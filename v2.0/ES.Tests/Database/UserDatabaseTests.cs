@@ -22,7 +22,7 @@ public class UserDatabaseTests
         Assert.True(operation.HasValue);
         if (operation.HasValue)
         {
-            Assert.Equal(OperationType.WRITE, operation.Value.Operation);
+            Assert.Equal(OperationType.WRITE, operation.Value.Type);
             Assert.Equal(new[] {
                 "222222222;password;01/04/2021;444;0123456789",
                 "123456789;adminpassword;01/02/2020;123;0123456789"

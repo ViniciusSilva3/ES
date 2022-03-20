@@ -3,17 +3,14 @@ public class UserCardDate : ValueObject
 {
     private readonly string _value;
 
-    public static Result<UserCardDate> Create(string cardDate)
+    public static Result<UserCardDate> Create(Maybe<string> cardDate)
     {
-        if (String.IsNullOrEmpty(cardDate))
-            return Result.Fail<UserCardDate>("Card Date cannot be an empty string.");
-
-        cardDate = cardDate.Trim();
         DateTime dateValue;
-        if (DateTime.TryParse(cardDate, out dateValue))
-            return Result.Ok<UserCardDate>(new UserCardDate(dateValue.ToShortDateString()));
-        else
-            return Result.Fail<UserCardDate>("Card Date must only contain Dates.");
+        return cardDate.ToResult("Card Date cannot be an empty string.")
+            .OnSuccess(cardDate => cardDate.Trim())
+            .Ensure(cardDate => DateTime.TryParse(cardDate, out dateValue), "Card Date must only contain Dates.")
+            .OnSuccess(cardDate => DateTime.Parse(cardDate).ToShortDateString())
+            .Map(cardDate => new UserCardDate(cardDate));
     }
 
     protected UserCardDate(string value)
