@@ -9,6 +9,7 @@ public interface IUserService
     Result CreateUser(User user);
     Result<User> GetUser(UserCpf userCpf);
     Result<List<User>> GetAllUsers();
+    OperationType UpdateUser(User user);
 }
 
 public class UserService : IUserService
@@ -63,5 +64,21 @@ public class UserService : IUserService
         }
 
         return  Result.Fail<List<User>>("There are no users registred!");
+    }
+
+    public OperationType UpdateUser(User user)
+    {
+        FileContent content = _persister.ReadFileContent(DbConstants.userFileName);
+
+        Maybe<FileOperation> createUserOperation = _userDatabaseManager.AddUser(content, user);
+
+        if (createUserOperation.HasValue)
+        {
+            _persister.ApplyChanges(createUserOperation.Value);
+            return createUserOperation.Value.Type;
+        }
+
+        FileOperation updateUserOperation = _userDatabaseManager.UpdateUser(content, user);
+        return updateUserOperation.Type;
     }
 }

@@ -66,4 +66,29 @@ public class UserController : ControllerBase
 
         return new OkResult();
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public ActionResult UpdateUser(UserModal user, string id)
+    {
+        // must get user cpf by the route parameter, cannot update CPF field!
+        Result<UserCpf> cpf = UserCpf.Create(id);
+        Result<UserPassword> password = UserPassword.Create(user.password);
+        Result<UserCardNumber> cardNumber = UserCardNumber.Create(user.cardNumber);
+        Result<UserCardDigits> cardDigits = UserCardDigits.Create(user.cardDigits);
+        Result<UserCardDate> cardDate = UserCardDate.Create(user.cardDate);
+
+        Result result = Result.Combine(cpf, password, cardDate, cardDigits, cardNumber);
+
+        if (result.IsNotSuccess)
+            return new BadRequestObjectResult(result.Error);
+
+        User newUser = new User(cpf.Value, cardDate.Value, cardDigits.Value, cardNumber.Value, password.Value);
+
+        OperationType updateUserOperation = _userService.UpdateUser(newUser);
+        if (updateUserOperation == OperationType.UPDATE)
+            return new NoContentResult();
+        
+        return new OkResult();
+    }
 }

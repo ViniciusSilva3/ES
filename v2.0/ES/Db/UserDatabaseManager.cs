@@ -7,6 +7,7 @@ public interface IUserDatabaseManager
     Maybe<FileOperation> AddUser(FileContent currentFile, User newUser);
     Maybe<User> GetUser(FileContent currentFile, UserCpf userCpf);
     Maybe<List<User>> GetAllUsers(FileContent currentFile);
+    FileOperation UpdateUser(FileContent currentFile, User newUser);
 }
 public class UserDatabaseManager : IUserDatabaseManager
 { 
@@ -43,9 +44,20 @@ public class UserDatabaseManager : IUserDatabaseManager
     {
         List<User> users = Parse(currentFile.Content);
         if (!users.Any())
-            return null;
+            return null!;
         
         return users;
+    }
+
+    public FileOperation UpdateUser(FileContent currentFile, User newUser)
+    {
+        List<User> users = Parse(currentFile.Content);
+        var index = users.FindIndex(storedUser => storedUser.Cpf == newUser.Cpf);
+        if (index != -1)
+        {   
+            users[index] = newUser;
+        }
+        return new FileOperation(Serialize(users), currentFile.FileName, OperationType.UPDATE);
     }
 
     private List<User> Parse(string[] users)
@@ -54,7 +66,7 @@ public class UserDatabaseManager : IUserDatabaseManager
         foreach (string user in users)
         {
             string[] readUser = user.Split(';');
-            Maybe<User> tempUser = Create(readUser[0], readUser[1],
+            Maybe<User> tempUser = CreateUserObject(readUser[0], readUser[1],
                 readUser[2], readUser[3], readUser[4]);
             if (tempUser.HasValue)
                 returnList.Add(tempUser.Value);
@@ -62,7 +74,7 @@ public class UserDatabaseManager : IUserDatabaseManager
         return returnList;
     }
 
-    private Maybe<User> Create(string cpf, string password, string cardDate, string cardDigits,
+    private Maybe<User> CreateUserObject(string cpf, string password, string cardDate, string cardDigits,
         string cardNumber)
     {
         Result<UserCpf> Cpf = UserCpf.Create(cpf);

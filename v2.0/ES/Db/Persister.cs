@@ -25,6 +25,9 @@ public class Persister : IPersister
             case OperationType.WRITE:
                 File.WriteAllLines(operation.FileName, operation.Content);
                 return;
+            case OperationType.UPDATE:
+                File.WriteAllLines(operation.FileName, operation.Content);
+                return;
             default:
                 throw new InvalidOperationException();
         }
